@@ -199,10 +199,10 @@ app.get("/pause", async (req, res) => {
  * SmartThings callback endpoint
  */
 app.post("/smartthings", async (req, res) => {
-  console.log("smartthings", req.body);
-
+  console.log("smartthings", req);
+  
   res.send({
-    challenge: req.body.challenge
+    ok: true
   });
 });
 
