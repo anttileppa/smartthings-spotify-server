@@ -195,6 +195,17 @@ app.get("/pause", async (req, res) => {
   res.send(response.body);
 });
 
+/**
+ * SmartThings callback endpoint
+ */
+app.post("/smartthings", async (req, res) => {
+  console.log("smartthings", req.body);
+
+  res.send({
+    challenge: req.body.challenge
+  });
+});
+
 app.listen(port, () => {
   return console.log(`SmartThings Spotify server is listening on ${port}`);
 });
