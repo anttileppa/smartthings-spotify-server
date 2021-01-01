@@ -199,7 +199,7 @@ app.get("/pause", async (req, res) => {
  * SmartThings callback endpoint
  */
 app.post("/smartthings", async (req, res) => {
-  console.log("smartthings", req);
+  console.log("smartthings", req.query, req.body, req.headers);
   
   res.send({
     ok: true
