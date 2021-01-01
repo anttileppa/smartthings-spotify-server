@@ -136,6 +136,13 @@ app.get('/refresh', async (req, res) => {
 /**
  * Lists available playlists
  */
+app.get("/ping", async (req, res) => {
+  res.send("pong");
+});
+
+/**
+ * Lists available playlists
+ */
 app.get("/playlists", async (req, res) => {
   const playlists = (await getAuthorizedSpotifyApi().getUserPlaylists()).body;
   res.send(playlists);
