@@ -50,7 +50,7 @@ export default class SmartThings {
     // const interactionType = req.body.headers.interactionType;
     console.log("request type: ", interactionType);
     try {
-      switch (interactionType) {
+      switch (interactionType || "discoveryRequest") {
         case "discoveryRequest":
           response = await this.discoveryRequest(requestId)
           break;
