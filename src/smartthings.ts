@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import Spotify from "./spotify";
+import { partnerHelper, CommandResponse } from "st-schema";
+const stPartnerHelper = new partnerHelper({}, {});
 
 interface DiscoveryResponse {
   headers: { [key: string]: string };
@@ -18,21 +20,28 @@ export default class SmartThings {
     console.log('Request received: ' + JSON.stringify(req.body));
   
     let response
-    const { headers, authentication, devices } = req as any;
+    const { headers, body, query } = req;
 
     console.log({
       headers,
-      authentication,
-      devices
+      body,
+      query
     });
 
-    const { interactionType1, requestId } = headers;
-    const interactionType = req.body.headers.interactionType;
+    const requestId: string | undefined = headers["x-request-id"] as string;
+    if (!requestId) {
+      return res.status(400).send("Missing request id");
+    }
+
+    const { interactionType } = body;
+
+    // /const { interactionType1, requestId } = headers;
+    // const interactionType = req.body.headers.interactionType;
     console.log("request type: ", interactionType);
     try {
       switch (interactionType) {
         case "discoveryRequest":
-          response = await this.discoveryRequest(headers.requestId)
+          response = await this.discoveryRequest(requestId)
           break;
         /**
           case "commandRequest":
@@ -60,28 +69,12 @@ export default class SmartThings {
   private discoveryRequest = async (requestId: string) => {
     const devices = (await this.spotify.getAuthorizedSpotifyApi().getMyDevices()).body;
 
-
     const headers = {
       "schema": "st-schema",
       "version": "1.0",
       "interactionType": "discoveryResponse",
       "requestId": requestId
     };
-
-    /**
-    
-
-    const devices = [{
-      "externalDeviceId": "fake-c2c-dimmer",
-      "friendlyName": "Virtual Switch",
-      "deviceHandlerType": "c2c-dimmer",
-      "manufacturerInfo": {
-          "manufacturerName": "SmartThings",
-          "modelName": "Virtual Viper device",
-          "hwVersion": "v1 US bulb",
-          "swVersion": "23.123.231"
-      }
-    }]; */
 
     return {
       headers: headers,
