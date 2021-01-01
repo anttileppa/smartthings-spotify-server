@@ -16,13 +16,24 @@ export default class SmartThings {
     this.spotify = spotify;
   }
   
-  public handlePost = async (req: Request, res: Response) => {
-    console.log('Request received: ' + JSON.stringify(req.body));
-  
+  public handleGet = async (req: Request, res: Response) => {
     let response
     const { headers, body, query } = req;
 
-    console.log({
+    console.log("GET", {
+      headers,
+      body,
+      query
+    });
+
+    res.send();
+  }
+
+  public handlePost = async (req: Request, res: Response) => {
+    let response
+    const { headers, body, query } = req;
+
+    console.log("POST", {
       headers,
       body,
       query

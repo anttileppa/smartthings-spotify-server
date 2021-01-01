@@ -60,6 +60,11 @@ app.get("/pause", spotify.handlePause);
 /**
  * SmartThings callback endpoint
  */
+app.get("/smartthings", smartThings.handleGet);
+
+/**
+ * SmartThings callback endpoint
+ */
 app.post("/smartthings", smartThings.handlePost);
 
 app.listen(port, () => {
