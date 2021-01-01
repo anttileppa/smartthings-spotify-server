@@ -1,9 +1,11 @@
-import { partnerHelper, CommandResponse, SchemaConnector } from "st-schema";
+const { SchemaConnector } = require('st-schema');
 import Spotify from "./spotify";
 
 const spotify = new Spotify();
 
-const connector = new SchemaConnector()
+const connector = new SchemaConnector()  
+  .clientId(process.env.ST_CLIENT_ID)
+  .clientSecret(process.env.ST_CLIENT_SECRET)
   .discoveryHandler(async (accessToken: any, response: any) => {
     const devices = (await spotify.getAuthorizedSpotifyApi().getMyDevices()).body.devices;
 
