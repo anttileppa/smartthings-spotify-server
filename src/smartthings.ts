@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import Spotify from "./spotify";
-import { partnerHelper, CommandResponse } from "st-schema";
-const stPartnerHelper = new partnerHelper({}, {});
 
 interface DiscoveryResponse {
   headers: { [key: string]: string };
