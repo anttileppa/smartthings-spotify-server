@@ -169,13 +169,29 @@ app.get("/play", async (req, res) => {
   if (!context_uri) {
     return res.status(400).send("Missing context_uri");
   }
+  
+  const spotify = getAuthorizedSpotifyApi();
 
-  const response = await getAuthorizedSpotifyApi().play({
-    device_id: device_id as string,
-    context_uri: context_uri as string
-  });
+  try {
+    await spotify.transferMyPlayback({
+      device_ids: [ device_id as string ],
+      play: true
+    });
+  } catch (e) {
+    console.log("Failed to transfer playback", e);
+  }
 
-  res.send(response.body);
+  try {
+    const response = await spotify.play({
+      device_id: device_id as string,
+      context_uri: context_uri as string
+    });
+
+    res.send(response.body);
+  } catch (e) {
+    console.log("Failed to start playback", e);    
+    res.status(500).send(`Failed to start playback (${e.message})`);
+  }
 });
 
 /**
